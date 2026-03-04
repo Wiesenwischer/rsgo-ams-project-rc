@@ -154,14 +154,14 @@ sharedVariables:
     group: Network
 
 # Maintenance Observer - watches for maintenance mode flag in database
-# When ams.MaintenanceMode = 1, services without rsgo.maintenance: ignore label are stopped
-maintenanceObserver:
-  type: sqlExtendedProperty
-  connectionName: AMS_DB
-  propertyName: ams.MaintenanceMode
-  maintenanceValue: "1"
-  normalValue: "0"
-  pollingInterval: 30s
+maintenance:
+  observer:
+    type: sqlExtendedProperty
+    connectionName: AMS_DB
+    propertyName: ams-MaintenanceMode
+    maintenanceValue: "1"
+    normalValue: "0"
+    pollingInterval: 30s
 
 stacks:
   # Core Stacks
