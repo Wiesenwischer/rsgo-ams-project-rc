@@ -5,7 +5,7 @@ metadata:
   name: ams.project
   productId: com.ams-erp.project
   description: Enterprise Project Management System with Infrastructure, Platform and Business Services
-  productVersion: "3.1.0-ci"
+  productVersion: "3.0.1-rc"
   author: ams solution GmbH
   category: Enterprise
   tags:
@@ -115,57 +115,6 @@ sharedVariables:
     type: Boolean
     default: "false"
     group: Advanced
-
-  # Database Credentials
-  DB_ADMIN_USER:
-    label: DB Admin User
-    description: SQL Server admin login for DDL migrations
-    type: String
-    required: true
-    group: Database
-
-  DB_ADMIN_PASSWORD:
-    label: DB Admin Password
-    description: SQL Server admin password for DDL migrations
-    type: Secret
-    required: true
-    group: Database
-
-  DB_RUNTIME_USER:
-    label: DB Runtime User
-    description: SQL Server runtime login (least-privilege, created by migrator)
-    type: String
-    required: true
-    group: Database
-
-  DB_RUNTIME_PASSWORD:
-    label: DB Runtime Password
-    description: SQL Server runtime password
-    type: Secret
-    required: true
-    group: Database
-
-  # Admin Portal
-  ADMIN_INITIAL_USER_ID:
-    label: Initial Admin User ID
-    description: User ID for the initial administrator (from Identity Provider)
-    type: String
-    default: ""
-    group: Admin
-
-  ADMIN_INITIAL_USER_NAME:
-    label: Initial Admin User Name
-    description: Display name for the initial administrator
-    type: String
-    default: ""
-    group: Admin
-
-  ADMIN_INITIAL_EMAIL:
-    label: Initial Admin Email
-    description: Email for the initial administrator
-    type: String
-    default: ""
-    group: Admin
 
   # Infrastructure Connections (previously in business-services stack)
   EVENTSTORE_DB:
