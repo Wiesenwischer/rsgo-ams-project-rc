@@ -1,9 +1,9 @@
 # Platform Stack Fragment
-# Core platform services (Web BFF, Desktop Gateways, ClientHub)
+# Core platform services (Web BFF, Desktop Gateways, ClientHub, Admin Portal)
 
 metadata:
   name: Platform
-  description: Platform services (Web BFF, Desktop API Gateway, Composition Gateway, ClientHub)
+  description: Platform services (Web BFF, Desktop API Gateway, Composition Gateway, ClientHub, Admin Portal)
 
 variables:
   Authentication__RequireHttpsMetadata:
@@ -30,7 +30,7 @@ variables:
 
 services:
   web-bff:
-    image: amssolution/web.bff:linux-v3.0.1-rc
+    image: amssolution/web.bff:linux-latest-ci
     containerName: web-bff
     ports:
       - "${BFF_PORT}:8080"
@@ -75,6 +75,9 @@ services:
       ReverseProxy__Clusters__erprefs-web-cluster__Destinations__destination1__Address: http://erprefs-web:3000/
       ReverseProxy__Clusters__analytics-web-cluster__Destinations__destination1__Address: http://analytics-web:3000/
       ReverseProxy__Clusters__organizationsaccess-cluster__Destinations__destination1__Address: http://organizationsaccess-api:8080/
+      ReverseProxy__Clusters__admin-api-cluster__Destinations__destination1__Address: http://admin-api:8080/
+      ReverseProxy__Clusters__admin-web-cluster__Destinations__destination1__Address: http://admin-web:3000/
+      BackendServices__Admin__BaseUrl: http://admin-api:8080
       Cors__AllowedOrigins__0: http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:${BFF_PORT}
       Cors__AllowedOrigins__1: http://localhost:3000
       Cors__AllowedOrigins__2: http://localhost:7716
@@ -103,7 +106,7 @@ services:
       startPeriod: 40s
 
   desktopschedulingapigw:
-    image: amssolution/desktopschedulingapigw:linux-v3.0.1-rc
+    image: amssolution/desktopschedulingapigw:linux-latest-ci
     containerName: desktopschedulingapigw
     ports:
       - "5200:8080"
@@ -124,7 +127,7 @@ services:
       startPeriod: 30s
 
   desktopprojectplanningcomposition:
-    image: amssolution/desktop.projectplanning.compositiongateway:linux-v3.0.1-rc
+    image: amssolution/desktop.projectplanning.compositiongateway:linux-latest-ci
     containerName: desktopprojectplanningcomposition
     environment:
       ASPNETCORE_URLS: http://0.0.0.0:8080
@@ -147,7 +150,7 @@ services:
       startPeriod: 40s
 
   clienthub:
-    image: amssolution/itops.clienthub:linux-v3.0.1-rc
+    image: amssolution/itops.clienthub:linux-latest-ci
     containerName: clienthub
     environment:
       ASPNETCORE_URLS: http://0.0.0.0:8080
@@ -167,6 +170,61 @@ services:
       timeout: 10s
       retries: 3
       startPeriod: 40s
+
+  # Admin Portal Services
+  platform-migrator:
+    image: amssolution/platform.migrator:linux-latest-ci
+    containerName: platform-migrator
+    lifecycle: init
+    environment:
+      ConnectionStrings__Persistence: ${AMS_DB}
+      DB_ADMIN_USER: ${DB_ADMIN_USER}
+      DB_ADMIN_PASSWORD: ${DB_ADMIN_PASSWORD}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
+    networks:
+      - ams-project-backend
+
+  admin-api:
+    image: amssolution/admin.api:linux-latest-ci
+    containerName: admin-api
+    environment:
+      ASPNETCORE_URLS: http://0.0.0.0:8080
+      ASPNETCORE_HTTP_PORTS: "8080"
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ConnectionStrings__AdminDb: ${AMS_DB}
+      Admin__InitialAdminUserId: ${ADMIN_INITIAL_USER_ID}
+      Admin__InitialAdminUserName: ${ADMIN_INITIAL_USER_NAME}
+      Admin__InitialAdminEmail: ${ADMIN_INITIAL_EMAIL}
+      Serilog__MinimumLevel: ${LOG_LEVEL}
+    networks:
+      - ams-project-backend
+    restart: unless-stopped
+    healthCheck:
+      type: http
+      path: /hc
+      port: 8080
+      test: ["CMD", "curl", "-f", "http://localhost:8080/hc"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      startPeriod: 40s
+
+  admin-web:
+    image: amssolution/admin-web:linux-latest-ci
+    containerName: admin-web
+    environment:
+      NODE_ENV: ${NODE_ENV}
+    networks:
+      - ams-project-backend
+    restart: unless-stopped
+    healthCheck:
+      type: tcp
+      port: 3000
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      startPeriod: 20s
 
 volumes:
   web-bff-dataprotection: {}
