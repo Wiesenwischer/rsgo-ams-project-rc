@@ -53,6 +53,7 @@ services:
       - ams-project-backend
     restart: unless-stopped
     healthCheck:
+      path: /export/hc
       type: tcp
       port: 3000
       interval: 30s

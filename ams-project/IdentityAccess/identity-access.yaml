@@ -112,6 +112,8 @@ services:
     networks:
       - ams-project-identity
     restart: unless-stopped
+    healthCheck:
+      path: /hc
 
   adminportal:
     image: amssolution/identityaccess.adminportal:linux-latest
@@ -133,6 +135,8 @@ services:
     networks:
       - ams-project-identity
     restart: unless-stopped
+    healthCheck:
+      path: /hc
 
   identityaccess-clienthub:
     image: amssolution/identityaccess.clienthub:linux-latest
@@ -152,6 +156,8 @@ services:
     networks:
       - ams-project-identity
     restart: unless-stopped
+    healthCheck:
+      path: /hc
 
   identityaccess-emailsender:
     image: amssolution/identityaccess.emailsender:linux-latest
@@ -178,6 +184,8 @@ services:
     networks:
       - ams-project-identity
     restart: unless-stopped
+    healthCheck:
+      path: /hc
 
 volumes:
   profilePictures: {}

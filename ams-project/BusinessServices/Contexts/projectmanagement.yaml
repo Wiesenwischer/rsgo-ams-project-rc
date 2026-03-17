@@ -192,6 +192,8 @@ services:
     networks:
       - ams-project-backend
     restart: unless-stopped
+    healthCheck:
+      path: /hc
 
   accounting-integration:
     image: amssolution/accounting.integration:linux-v3.1.0-rc
@@ -229,6 +231,7 @@ services:
       - ams-project-backend
     restart: unless-stopped
     healthCheck:
+      path: /projectmanagement/hc
       test: ["CMD", "curl", "-f", "http://localhost:3000/"]
       interval: 30s
       timeout: 10s
@@ -245,6 +248,7 @@ services:
       - ams-project-backend
     restart: unless-stopped
     healthCheck:
+      path: /erprefs/hc
       type: tcp
       port: 3000
       interval: 30s
