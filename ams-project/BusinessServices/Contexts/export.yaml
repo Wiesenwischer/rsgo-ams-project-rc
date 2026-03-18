@@ -10,8 +10,9 @@ services:
     containerName: export-migrator
     lifecycle: init
     environment:
-      ConnectionStrings__Persistence: ${AMS_DB}
-      ConnectionStrings__Transport: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
       DB_ADMIN_USER: ${DB_ADMIN_USER}
       DB_ADMIN_PASSWORD: ${DB_ADMIN_PASSWORD}
       DB_RUNTIME_USER: ${DB_RUNTIME_USER}
@@ -25,7 +26,11 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       ASPNETCORE_URLS: http://0.0.0.0:8080
-      ConnectionStrings__ams: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       ConnectionStrings__cache: ${REDIS_CONNECTION}
       Serilog__MinimumLevel: ${LOG_LEVEL}
     networks:
@@ -53,7 +58,6 @@ services:
       - ams-project-backend
     restart: unless-stopped
     healthCheck:
-      path: /export/hc
       type: tcp
       port: 3000
       interval: 30s
@@ -67,9 +71,11 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       ASPNETCORE_URLS: http://0.0.0.0:8080
-      ConnectionStrings__ams: ${AMS_DB}
-      ConnectionStrings__Transport: ${AMS_DB}
-      ConnectionStrings__Persistence: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       QUEUE_PEEKER_DELAY_MS: "1000"
       Serilog__MinimumLevel: ${LOG_LEVEL}
     networks:

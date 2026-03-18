@@ -10,8 +10,9 @@ services:
     containerName: erpintegration-migrator
     lifecycle: init
     environment:
-      ConnectionStrings__Persistence: ${AMS_DB}
-      ConnectionStrings__Transport: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
       DB_ADMIN_USER: ${DB_ADMIN_USER}
       DB_ADMIN_PASSWORD: ${DB_ADMIN_PASSWORD}
       DB_RUNTIME_USER: ${DB_RUNTIME_USER}
@@ -24,9 +25,11 @@ services:
     containerName: erpreadmodel-readmodelgenerator
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ConnectionStrings__ams: ${AMS_DB}
-      ConnectionStrings__Transport: ${AMS_DB}
-      ConnectionStrings__Persistence: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker: ${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER}
       ExitOnCriticalError: ${EXIT_ON_CRITICAL_ERROR}
       QUEUE_PEEKER_DELAY_MS: "1000"
@@ -51,7 +54,11 @@ services:
       ASPNETCORE_URLS: http://0.0.0.0:8080
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ConnectionStrings__ams: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       Serilog__MinimumLevel: ${LOG_LEVEL}
     networks:
       - ams-project-backend
@@ -73,7 +80,11 @@ services:
       ASPNETCORE_URLS: http://0.0.0.0:8080
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ConnectionStrings__ams: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       Serilog__MinimumLevel: ${LOG_LEVEL}
     networks:
       - ams-project-backend
@@ -95,7 +106,11 @@ services:
       ASPNETCORE_URLS: http://0.0.0.0:8080
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ConnectionStrings__ams: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker: ${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER}
       ExitOnCriticalError: ${EXIT_ON_CRITICAL_ERROR}
       Serilog__MinimumLevel: ${LOG_LEVEL}

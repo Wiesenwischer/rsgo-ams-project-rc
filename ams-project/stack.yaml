@@ -39,11 +39,25 @@ sharedVariables:
     group: Network
 
   # Database Configuration
-  AMS_DB:
-    label: ams Database Connection
-    description: SQL Server connection string for ams database
-    type: SqlServerConnectionString
+  DB_SERVER:
+    label: DB Server
+    description: SQL Server hostname or IP address (e.g., mssql, sql01.firma.local)
+    type: String
     required: true
+    group: Database
+
+  DB_NAME:
+    label: DB Name
+    description: Database name (e.g., ams_project)
+    type: String
+    required: true
+    group: Database
+
+  DB_PARAMS:
+    label: DB Additional Parameters
+    description: Additional connection string parameters (e.g., Encrypt=false;TrustServerCertificate=true)
+    type: String
+    default: ""
     group: Database
 
   # Environment Configuration
@@ -116,6 +130,35 @@ sharedVariables:
     default: "false"
     group: Advanced
 
+  # Database Credentials
+  DB_ADMIN_USER:
+    label: DB Admin User
+    description: "Optional: SQL Server admin login for DDL migrations. If not set, runtime credentials are used."
+    type: String
+    required: false
+    group: Database
+
+  DB_ADMIN_PASSWORD:
+    label: DB Admin Password
+    description: "Optional: SQL Server admin password for DDL migrations."
+    type: Password
+    required: false
+    group: Database
+
+  DB_RUNTIME_USER:
+    label: DB Runtime User
+    description: "Optional: SQL Server runtime login (least-privilege, created by migrator). If not set, admin credentials are used for all services."
+    type: String
+    required: false
+    group: Database
+
+  DB_RUNTIME_PASSWORD:
+    label: DB Runtime Password
+    description: "Optional: SQL Server runtime password."
+    type: Password
+    required: false
+    group: Database
+
   # Infrastructure Connections (previously in business-services stack)
   EVENTSTORE_DB:
     label: EventStoreDB Connection (gRPC)
@@ -154,10 +197,15 @@ sharedVariables:
     group: Network
 
 # Maintenance Observer - watches for maintenance mode flag in database
+# TODO: RSGO needs to compose connection string from DB_SERVER/DB_NAME/DB_RUNTIME_USER/DB_RUNTIME_PASSWORD
 maintenance:
   observer:
     type: sqlExtendedProperty
-    connectionName: AMS_DB
+    server: ${DB_SERVER}
+    database: ${DB_NAME}
+    user: ${DB_RUNTIME_USER}
+    password: ${DB_RUNTIME_PASSWORD}
+    additionalParams: ${DB_PARAMS}
     propertyName: ams-MaintenanceMode
     maintenanceValue: "1"
     normalValue: "0"

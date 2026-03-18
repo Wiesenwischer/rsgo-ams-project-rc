@@ -10,10 +10,13 @@ services:
     containerName: projectmanagement-migrator
     lifecycle: init
     environment:
-      ConnectionStrings__ProjectManagement: ${AMS_DB}
-      ConnectionStrings__Persistence: ${AMS_DB}
-      ConnectionStrings__Transport: ${AMS_DB}
-      ConnectionStrings__ams: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_ADMIN_USER: ${DB_ADMIN_USER}
+      DB_ADMIN_PASSWORD: ${DB_ADMIN_PASSWORD}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
     networks:
       - ams-project-backend
 
@@ -24,9 +27,11 @@ services:
       ASPNETCORE_URLS: http://0.0.0.0:8080
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ConnectionStrings__ProjectManagement: ${AMS_DB}
-      ConnectionStrings__Transport: ${AMS_DB}
-      ConnectionStrings__Persistence: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       ConnectionStrings__cache: ${REDIS_CONNECTION}
       ConnectionStrings__EventStore: ${EVENTSTORE_TCP}
       ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker: ${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER}
@@ -57,7 +62,11 @@ services:
       ASPNETCORE_URLS: http://0.0.0.0:8080
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ConnectionStrings__ams: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       Serilog__MinimumLevel: ${LOG_LEVEL}
     networks:
       - ams-project-backend
@@ -79,7 +88,11 @@ services:
       ASPNETCORE_URLS: http://0.0.0.0:8080
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ConnectionStrings__ams: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       ConnectionStrings__cache: ${REDIS_CONNECTION}
       ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker: ${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER}
       ExitOnCriticalError: ${EXIT_ON_CRITICAL_ERROR}
@@ -109,9 +122,11 @@ services:
       ASPNETCORE_URLS: http://0.0.0.0:8080
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ConnectionStrings__ams: ${AMS_DB}
-      ConnectionStrings__Transport: ${AMS_DB}
-      ConnectionStrings__Persistence: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker: ${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER}
       ExitOnCriticalError: ${EXIT_ON_CRITICAL_ERROR}
       CultureCode: ${CULTURE_CODE}
@@ -136,9 +151,11 @@ services:
       ASPNETCORE_URLS: http://0.0.0.0:8080
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ConnectionStrings__ams: ${AMS_DB}
-      ConnectionStrings__Transport: ${AMS_DB}
-      ConnectionStrings__Persistence: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       ConnectionStrings__EventStore: ${EVENTSTORE_TCP}
       Serilog__MinimumLevel: ${LOG_LEVEL}
     networks:
@@ -162,9 +179,11 @@ services:
       ASPNETCORE_URLS: http://0.0.0.0:8080
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ConnectionStrings__ams: ${AMS_DB}
-      ConnectionStrings__Transport: ${AMS_DB}
-      ConnectionStrings__Persistence: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       ConnectionStrings__EventStore: ${EVENTSTORE_TCP}
       QUEUE_PEEKER_DELAY_MS: "1000"
       Serilog__MinimumLevel: ${LOG_LEVEL}
@@ -186,14 +205,16 @@ services:
     image: amssolution/accounting.resourcecapacitydispatcher:linux-v3.1.0-rc
     containerName: accounting-capacitydispatcher
     environment:
-      ConnectionStrings__ams: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       QUEUE_PEEKER_DELAY_MS: "1000"
       Serilog__MinimumLevel: ${LOG_LEVEL}
     networks:
       - ams-project-backend
     restart: unless-stopped
-    healthCheck:
-      path: /hc
 
   accounting-integration:
     image: amssolution/accounting.integration:linux-v3.1.0-rc
@@ -202,7 +223,11 @@ services:
       ASPNETCORE_URLS: http://0.0.0.0:8080
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ConnectionStrings__ams: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       ServiceBusTimeToWaitBeforeTriggeringCircuitBreaker: ${SERVICE_BUS_TIME_TO_WAIT_BEFORE_TRIGGERING_CIRCUIT_BREAKER}
       ExitOnCriticalError: ${EXIT_ON_CRITICAL_ERROR}
       QUEUE_PEEKER_DELAY_MS: "1000"
@@ -231,7 +256,6 @@ services:
       - ams-project-backend
     restart: unless-stopped
     healthCheck:
-      path: /projectmanagement/hc
       test: ["CMD", "curl", "-f", "http://localhost:3000/"]
       interval: 30s
       timeout: 10s
@@ -248,7 +272,6 @@ services:
       - ams-project-backend
     restart: unless-stopped
     healthCheck:
-      path: /erprefs/hc
       type: tcp
       port: 3000
       interval: 30s

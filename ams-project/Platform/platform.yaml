@@ -1,9 +1,9 @@
 # Platform Stack Fragment
-# Core platform services (Web BFF, Desktop Gateways, ClientHub)
+# Core platform services (Web BFF, Desktop Gateways, ClientHub, Admin Portal)
 
 metadata:
   name: Platform
-  description: Platform services (Web BFF, Desktop API Gateway, Composition Gateway, ClientHub)
+  description: Platform services (Web BFF, Desktop API Gateway, Composition Gateway, ClientHub, Admin Portal)
 
 variables:
   Authentication__RequireHttpsMetadata:
@@ -52,7 +52,11 @@ services:
       Authentication__RemoteSignOutPath: /signout-oidc
       Authentication__DisableCorrelationValidation: "false"
       ConnectionStrings__cache: ${REDIS_CONNECTION}
-      ConnectionStrings__ams: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       BackendServices__ProjectManagement__BaseUrl: http://projectmanagement-api:8080
       BackendServices__Export__BaseUrl: http://export-api:8080
       BackendServices__Memo__BaseUrl: http://memo-api:8080
@@ -60,7 +64,6 @@ services:
       BackendServices__Collaboration__BaseUrl: http://collaboration-api:8080
       BackendServices__Sales__BaseUrl: http://salesorders-api:8080
       BackendServices__ProductionPlanning__BaseUrl: http://bom-api:8080
-      BackendServices__OrganizationsAccess__BaseUrl: http://organizationsaccess-api:8080
       ReverseProxy__Clusters__projectmanagement-cluster__Destinations__destination1__Address: http://projectmanagement-api:8080/
       ReverseProxy__Clusters__export-cluster__Destinations__destination1__Address: http://export-api:8080/
       ReverseProxy__Clusters__memo-cluster__Destinations__destination1__Address: http://memo-api:8080/
@@ -74,8 +77,7 @@ services:
       ReverseProxy__Clusters__sales-cluster__Destinations__destination1__Address: http://salesorders-api:8080/
       ReverseProxy__Clusters__erprefs-web-cluster__Destinations__destination1__Address: http://erprefs-web:3000/
       ReverseProxy__Clusters__analytics-web-cluster__Destinations__destination1__Address: http://analytics-web:3000/
-      ReverseProxy__Clusters__organizationsaccess-cluster__Destinations__destination1__Address: http://organizationsaccess-api:8080/
-      Cors__AllowedOrigins__0: http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:${BFF_PORT}
+Cors__AllowedOrigins__0: http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:${BFF_PORT}
       Cors__AllowedOrigins__1: http://localhost:3000
       Cors__AllowedOrigins__2: http://localhost:7716
       Cors__AllowedOrigins__3: http://host.docker.internal:5000
@@ -153,7 +155,11 @@ services:
       ASPNETCORE_URLS: http://0.0.0.0:8080
       ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ConnectionStrings__ams: ${AMS_DB}
+      DB_SERVER: ${DB_SERVER}
+      DB_NAME: ${DB_NAME}
+      DB_PARAMS: ${DB_PARAMS}
+      DB_RUNTIME_USER: ${DB_RUNTIME_USER}
+      DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
       Serilog__MinimumLevel: ${LOG_LEVEL}
     networks:
       - ams-project-backend
