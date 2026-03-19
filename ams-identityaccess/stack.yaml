@@ -42,7 +42,7 @@ sharedVariables:
     label: DB Additional Parameters
     description: Additional connection string parameters (e.g., Encrypt=false;TrustServerCertificate=true)
     type: String
-    default: "Encrypt=false;TrustServerCertificate=true;Max Pool Size=100"
+    default: "Encrypt=false;TrustServerCertificate=true;Max Pool Size=100;MultipleActiveResultSets=true"
     group: Database
 
   DB_ADMIN_USER:
