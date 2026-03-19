@@ -49,28 +49,29 @@ sharedVariables:
     label: DB Admin User
     description: SQL Server admin login for DDL migrations
     type: String
-    required: false
+    default: projectadmin
+    required: true
     group: Database
 
   DB_ADMIN_PASSWORD:
     label: DB Admin Password
     description: SQL Server admin password for DDL migrations
     type: Password
-    required: false
+    required: true
     group: Database
 
   DB_RUNTIME_USER:
     label: DB Runtime User
     description: SQL Server runtime login (least-privilege, used by services)
     type: String
-    required: false
+    required: true
     group: Database
 
   DB_RUNTIME_PASSWORD:
     label: DB Runtime Password
     description: SQL Server runtime password
     type: Password
-    required: false
+    required: true
     group: Database
 
   # Environment Configuration
