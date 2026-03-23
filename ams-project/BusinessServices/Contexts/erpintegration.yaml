@@ -17,6 +17,7 @@ services:
       DB_ADMIN_PASSWORD: ${DB_ADMIN_PASSWORD}
       DB_RUNTIME_USER: ${DB_RUNTIME_USER}
       DB_RUNTIME_PASSWORD: ${DB_RUNTIME_PASSWORD}
+      ConnectionStrings__ams: "Data Source=${DB_SERVER};Initial Catalog=${DB_NAME};User ID=${DB_ADMIN_USER};Password=${DB_ADMIN_PASSWORD};${DB_PARAMS}"
     networks:
       - ams-project-backend
 
