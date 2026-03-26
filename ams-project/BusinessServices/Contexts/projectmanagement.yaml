@@ -205,6 +205,8 @@ services:
     image: amssolution/accounting.resourcecapacitydispatcher:linux-v3.1.0-rc
     containerName: accounting-capacitydispatcher
     environment:
+      ASPNETCORE_URLS: http://0.0.0.0:8080
+      ASPNETCORE_HTTP_PORTS: "8080"
       DB_SERVER: ${DB_SERVER}
       DB_NAME: ${DB_NAME}
       DB_PARAMS: ${DB_PARAMS}
@@ -215,6 +217,14 @@ services:
     networks:
       - ams-project-backend
     restart: unless-stopped
+    healthCheck:
+      type: http
+      path: /hc
+      port: 8080
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      startPeriod: 40s
 
   accounting-integration:
     image: amssolution/accounting.integration:linux-v3.1.0-rc
@@ -256,7 +266,9 @@ services:
       - ams-project-backend
     restart: unless-stopped
     healthCheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      type: http
+      path: /projectmanagement/hc
+      port: 3000
       interval: 30s
       timeout: 10s
       retries: 3
@@ -272,7 +284,8 @@ services:
       - ams-project-backend
     restart: unless-stopped
     healthCheck:
-      type: tcp
+      type: http
+      path: /erprefs/hc
       port: 3000
       interval: 30s
       timeout: 10s
