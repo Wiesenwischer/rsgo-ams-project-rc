@@ -52,14 +52,17 @@ services:
     containerName: export-web
     environment:
       NODE_ENV: production
+      HOSTNAME: "0.0.0.0"
       NEXT_PUBLIC_API_BASE_URL: http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:${BFF_PORT}
       API_BASE_URL: http://web-bff:5000
     networks:
       - ams-project-backend
     restart: unless-stopped
     healthCheck:
-      type: tcp
+      type: http
+      path: /hc
       port: 3000
+      test: ["CMD", "curl", "-f", "http://localhost:3000/hc"]
       interval: 30s
       timeout: 10s
       retries: 3

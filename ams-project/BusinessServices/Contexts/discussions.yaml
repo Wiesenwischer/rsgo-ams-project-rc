@@ -53,6 +53,7 @@ services:
     containerName: discussions-web
     environment:
       NODE_ENV: ${NODE_ENV}
+      HOSTNAME: "0.0.0.0"
       NEXT_PUBLIC_API_BASE_URL: http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:${BFF_PORT}
       API_BASE_URL: http://discussions-api:8080
       NEXT_PUBLIC_OIDC_AUTHORITY: http://${AMS_PROJECT_EXTERNAL_DNS_NAME_OR_IP}:${IDENTITY_SERVER_PORT}

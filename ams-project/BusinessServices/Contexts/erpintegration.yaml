@@ -25,6 +25,8 @@ services:
     image: amssolution/erpreadmodel.readmodelgenerator:linux-v3.1.0-rc
     containerName: erpreadmodel-readmodelgenerator
     environment:
+      ASPNETCORE_URLS: http://0.0.0.0:8080
+      ASPNETCORE_HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       DB_SERVER: ${DB_SERVER}
       DB_NAME: ${DB_NAME}
