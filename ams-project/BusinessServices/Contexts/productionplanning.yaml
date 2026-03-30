@@ -84,8 +84,8 @@ services:
     healthCheck:
       type: http
       path: /bom-link-client/hc
-      port: 3000
-      test: ["CMD", "curl", "-f", "http://localhost:3000/bom-link-client/hc"]
+      port: 8080
+      test: ["CMD", "curl", "-f", "http://localhost:8080/bom-link-client/hc"]
       interval: 30s
       timeout: 10s
       retries: 3
