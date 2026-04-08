@@ -75,6 +75,13 @@ sharedVariables:
     required: true
     group: Database
 
+  DB_TRANSPORT_NAME:
+    label: Transport DB Name
+    description: Database name for NServiceBus transport (queues, subscriptions). Shared across bounded contexts.
+    type: String
+    required: true
+    group: Database
+
   # Environment Configuration
   CULTURE_CODE:
     label: Culture Code
